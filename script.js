@@ -103,6 +103,20 @@ function convertRef(text) {
                 'φ': '\\phi', 'χ': '\\chi', 'ψ': '\\psi', 'ω': '\\omega'
             };
             ctitle = ctitle.replace(/[Α-Ωα-ω]/g, match => greekMap[match] || match);
+
+            // Replace special characters for title
+            ctitle = ctitle.replace("á", "{\'a}");
+            ctitle = ctitle.replace("é", "{\'e}");
+            ctitle = ctitle.replace("í", "{\'i}");
+            ctitle = ctitle.replace("ó", "{\'o}");
+            ctitle = ctitle.replace("ú", "{\'u}");
+            ctitle = ctitle.replace("ä", "{\"a}");
+            ctitle = ctitle.replace("ö", "{\"o}");
+            ctitle = ctitle.replace("ü", "{\"u}");
+            ctitle = ctitle.replace("ñ", "{\~n}");
+            ctitle = ctitle.replace("ø", "{\o}");
+            ctitle = ctitle.replace("å", "{\aa}");
+            
         }
         
         if (cauthor) {
@@ -119,7 +133,7 @@ function convertRef(text) {
             cauthor = cauthor.replace("ø", "{\o}");
             cauthor = cauthor.replace("å", "{\aa}");
         }
-
+    
         bibsinfo.push({
             tag: ctag,
             title: ctitle,
