@@ -177,7 +177,7 @@ function convertRef(text) {
         
         if (cpages) {
             // Replace weird hyphen with correct dash so that page numbers appear correctly
-            cpages = cpages.replace('–','-');
+            cpages = cpages.replace(/–/g,'-');
         }
         
         bibsinfo.push({
