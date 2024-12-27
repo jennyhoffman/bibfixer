@@ -17,18 +17,18 @@ const specialCharMap = {
     'å': `{\\aa}`,
     'Å': `{\\AA}`,
     'à': '{\\`a}',
-    'è': '\\`e',
-    'ì': '\\`i',
-    'ò': '\\`o',
-    'ù': '\\`u',
-    'č': '\\v{c}',
-    'š': '\\v{s}',
-    'ž': '\\v{z}',
+    'è': '{\\`e}',
+    'ì': '{\\`i}',
+    'ò': '{\\`o}',
+    'ù': '{\\`u}',
+    'č': '{\\v{c}}',
+    'š': '{\\v{s}}',
+    'ž': '{\\v{z}}',
     '&': '\\&',
 };
 
 // Add other names, capitalization doesn't matter.
-const propernouns = ['brillouin', 'dirac', 'fano', 'hall', 'hove', 'hubbard', 'landau', 'rashba', 'van hove', 'waals', 'weyl'];
+const propernouns = ['bloch', 'bragg', 'brillouin', 'dirac', 'fano', 'hall', 'hofstadter', 'hove', 'hubbard', 'landau', 'majorana', 'rashba', 'van hove', 'waals', 'weyl'];
 
 // Other things that should be surrounded with braces.
 const needsbraces = ["1D", "2D", "3D", "Q"];
