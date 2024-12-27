@@ -151,6 +151,11 @@ function convertRef(text) {
         if (cauthor) {
             // Replace special characters for authors
             cauthor = cauthor.replace(/(?<!\\)./g, char => specialCharMap[char] || char);
+
+            // Flag equals signs
+            if (cauthor.includes("=")) {
+                cnotes += "Authors includes '='. ";
+            };
         }
 
         bibsinfo.push({
