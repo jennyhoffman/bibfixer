@@ -175,6 +175,11 @@ function convertRef(text) {
             cjournal = cjournal.replace(reg, match => journalAbbrevMap[match] || match);
         }
         
+        if (cpages) {
+            // Replace weird hyphen with correct dash so that page numbers appear correctly
+            cpages = cpages.replace('–','-');
+        }
+        
         bibsinfo.push({
             tag: ctag,
             title: ctitle,
