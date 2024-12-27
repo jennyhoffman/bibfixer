@@ -171,7 +171,7 @@ function convertRef(text) {
 
         if (cjournal) {
             // Replace abbreviated journal titles
-            cjournal = cjournal.replace(${Object.keys(journalAbbrevMap).join('|')})./g, match => journalAbbrevMap[match] || match);
+            //cjournal = cjournal.replace(${Object.keys(journalAbbrevMap).join('|')})./g, match => journalAbbrevMap[match] || match);
         }
         
         bibsinfo.push({
