@@ -154,7 +154,7 @@ function convertRef(text) {
 
             // Flag equals signs
             if (cauthor.includes("=")) {
-                cnotes += "Authors includes '='. ";
+                cnotes += `Authors includes '=' for ${ctag}. `;
             };
         }
 
