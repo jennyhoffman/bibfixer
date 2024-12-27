@@ -14,7 +14,17 @@ const specialCharMap = {
     'ü': `{\\"u}`,
     'ñ': `{\\~n}`,
     'ø': `{\\o}`,
-    'å': `{\\aa}`
+    'å': `{\\aa}`,
+    'Å': `{\\AA}`,
+    'à': '{\\`a}',
+    'è': '\\`e',
+    'ì': '\\`i',
+    'ò': '\\`o',
+    'ù': '\\`u',
+    'č': '\\v{c}',
+    'š': '\\v{s}',
+    'ž': '\\v{z}',
+    '&': '\\&',
 };
 
 // Add other names, capitalization doesn't matter.
@@ -121,12 +131,12 @@ function convertRef(text) {
             ctitle = ctitle.replace(/[Α-Ωα-ω]/g, match => greekMap[match] || match);
 
             // Replace special characters for title
-            ctitle = ctitle.replace(/./g, char => specialCharMap[char] || char);
+            ctitle = ctitle.replace(/(?<!\\)./g, char => specialCharMap[char] || char);
         }
         
         if (cauthor) {
             // Replace special characters for authors
-            cauthor = cauthor.replace(/./g, char => specialCharMap[char] || char);
+            cauthor = cauthor.replace(/(?<!\\)./g, char => specialCharMap[char] || char);
         }
 
         bibsinfo.push({
