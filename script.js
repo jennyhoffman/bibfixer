@@ -28,7 +28,7 @@ const specialCharMap = {
 };
 
 // Add other names, capitalization doesn't matter.
-const propernouns = ["dirac", "landau", "hall", "waals", "weyl", "rashba", "brillouin", "fano", "hubbard", "van hove", "hove"];
+const propernouns = ['brillouin', 'dirac', 'fano', 'hall', 'hove', 'hubbard', 'landau', 'rashba', 'van hove', 'waals', 'weyl'];
 
 /*--------------------
 --Maybe don't change--
