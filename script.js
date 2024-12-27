@@ -1,13 +1,28 @@
-/*
-// strip unnecessary distracting fields
-// make sure each ref has the essential fields: author, title, journal, volume, pages, year, doi
-// (ideally make them all formatted the same so it's easy to see errors by eye)
-// ideally each bibkey has the author, journal, year (but if it has author, year you can leave it as-is, so we don't need to do a find-replace on the tex file as well)
-// alphabetize all bib entries by first author last name
-// fix capitalization in title (remove extra {{}} but make sure things like {D}irac are bracketed so they can remain capitalized. Or the whole title has double brackets.
-// fix math stuff (e.g. subscripts) in title
-// fix special characters in author names
-*/
+/*--------------------
+--------Change--------
+--------------------*/
+
+// Can add other key-value pairs, make sure to double back-slash
+const specialCharMap = {
+    'é': `{\\'e}`,
+    'á': `{\\'a}`,
+    'í': `{\\'i}`,
+    'ó': `{\\'o}`,
+    'ú': `{\\'u}`,
+    'ä': `{\\"a}`,
+    'ö': `{\\"o}`,
+    'ü': `{\\"u}`,
+    'ñ': `{\\~n}`,
+    'ø': `{\\o}`,
+    'å': `{\\aa}`
+};
+
+// Add other names, capitalization doesn't matter.
+const propernouns = ["dirac", "landau", "hall", "waals", "weyl", "rashba", "brillouin", "fano", "hubbard", "van hove", "hove"];
+
+/*--------------------
+--Maybe don't change--
+--------------------*/
 
 function produceGoodRef() {
     badref = document.getElementById("badref");
@@ -76,64 +91,44 @@ function convertRef(text) {
             cnotes += `Add year to tag for '${ctag}'. `;
         }
         
+        // Don't change
+        const greekMap = {
+            'Α': '\\Alpha', 'Β': '\\Beta', 'Γ': '\\Gamma', 'Δ': '\\Delta', 'Ε': '\\Epsilon',
+            'Ζ': '\\Zeta', 'Η': '\\Eta', 'Θ': '\\Theta', 'Ι': '\\Iota', 'Κ': '\\Kappa',
+            'Λ': '\\Lambda', 'Μ': '\\Mu', 'Ν': '\\Nu', 'Ξ': '\\Xi', 'Ο': '\\Omicron',
+            'Π': '\\Pi', 'Ρ': '\\Rho', 'Σ': '\\Sigma', 'Τ': '\\Tau', 'Υ': '\\Upsilon',
+            'Φ': '\\Phi', 'Χ': '\\Chi', 'Ψ': '\\Psi', 'Ω': '\\Omega',
+            'α': '\\alpha', 'β': '\\beta', 'γ': '\\gamma', 'δ': '\\delta', 'ε': '\\epsilon',
+            'ζ': '\\zeta', 'η': '\\eta', 'θ': '\\theta', 'ι': '\\iota', 'κ': '\\kappa',
+            'λ': '\\lambda', 'μ': '\\mu', 'ν': '\\nu', 'ξ': '\\xi', 'ο': '\\omicron',
+            'π': '\\pi', 'ρ': '\\rho', 'σ': '\\sigma', 'τ': '\\tau', 'υ': '\\upsilon',
+            'φ': '\\phi', 'χ': '\\chi', 'ψ': '\\psi', 'ω': '\\omega'
+        };
+
         if (ctitle) {
             // Fix chemical formulae
             ctitle = ctitle.replace(/(?<!\$)_(\d)/g, "$_$1$");
             ctitle = ctitle.replace(/(?<!\$)\^(\d)/g, "$^$1$");
 
             // Fix proper nouns in titles
-            ctitle = ctitle.replace(/dirac/gi, "{D}irac");
-            ctitle = ctitle.replace(/landau/gi, "{L}andau");
-            ctitle = ctitle.replace(/hall/gi, "{H}all");
-            ctitle = ctitle.replace(/waals/gi, "{W}aals");
-            ctitle = ctitle.replace(/weyl/gi, "{W}eyl");
-            ctitle = ctitle.replace(/rashba/gi, "{R}ashba");
+            for (let noun of propernouns) {
+                reg = new RegExp(noun, "gi");
+                ctitle = ctitle.replace(reg, `{${noun[0].toUpperCase()}}${noun.slice(1).toLowerCase()}`);
+            }
 
             // Fix greek letters in titles (credit to ChatGPT)
-            const greekMap = {
-                'Α': '\\Alpha', 'Β': '\\Beta', 'Γ': '\\Gamma', 'Δ': '\\Delta', 'Ε': '\\Epsilon',
-                'Ζ': '\\Zeta', 'Η': '\\Eta', 'Θ': '\\Theta', 'Ι': '\\Iota', 'Κ': '\\Kappa',
-                'Λ': '\\Lambda', 'Μ': '\\Mu', 'Ν': '\\Nu', 'Ξ': '\\Xi', 'Ο': '\\Omicron',
-                'Π': '\\Pi', 'Ρ': '\\Rho', 'Σ': '\\Sigma', 'Τ': '\\Tau', 'Υ': '\\Upsilon',
-                'Φ': '\\Phi', 'Χ': '\\Chi', 'Ψ': '\\Psi', 'Ω': '\\Omega',
-                'α': '\\alpha', 'β': '\\beta', 'γ': '\\gamma', 'δ': '\\delta', 'ε': '\\epsilon',
-                'ζ': '\\zeta', 'η': '\\eta', 'θ': '\\theta', 'ι': '\\iota', 'κ': '\\kappa',
-                'λ': '\\lambda', 'μ': '\\mu', 'ν': '\\nu', 'ξ': '\\xi', 'ο': '\\omicron',
-                'π': '\\pi', 'ρ': '\\rho', 'σ': '\\sigma', 'τ': '\\tau', 'υ': '\\upsilon',
-                'φ': '\\phi', 'χ': '\\chi', 'ψ': '\\psi', 'ω': '\\omega'
-            };
+            
             ctitle = ctitle.replace(/[Α-Ωα-ω]/g, match => greekMap[match] || match);
 
             // Replace special characters for title
-            ctitle = ctitle.replace("á", "{\'a}");
-            ctitle = ctitle.replace("é", "{\'e}");
-            ctitle = ctitle.replace("í", "{\'i}");
-            ctitle = ctitle.replace("ó", "{\'o}");
-            ctitle = ctitle.replace("ú", "{\'u}");
-            ctitle = ctitle.replace("ä", "{\"a}");
-            ctitle = ctitle.replace("ö", "{\"o}");
-            ctitle = ctitle.replace("ü", "{\"u}");
-            ctitle = ctitle.replace("ñ", "{\~n}");
-            ctitle = ctitle.replace("ø", "{\o}");
-            ctitle = ctitle.replace("å", "{\aa}");
-            
+            ctitle = ctitle.replace(/./g, char => specialCharMap[char] || char);
         }
         
         if (cauthor) {
             // Replace special characters for authors
-            cauthor = cauthor.replace("á", "{\'a}");
-            cauthor = cauthor.replace("é", "{\'e}");
-            cauthor = cauthor.replace("í", "{\'i}");
-            cauthor = cauthor.replace("ó", "{\'o}");
-            cauthor = cauthor.replace("ú", "{\'u}");
-            cauthor = cauthor.replace("ä", "{\"a}");
-            cauthor = cauthor.replace("ö", "{\"o}");
-            cauthor = cauthor.replace("ü", "{\"u}");
-            cauthor = cauthor.replace("ñ", "{\~n}");
-            cauthor = cauthor.replace("ø", "{\o}");
-            cauthor = cauthor.replace("å", "{\aa}");
+            cauthor = cauthor.replace(/./g, char => specialCharMap[char] || char);
         }
-    
+
         bibsinfo.push({
             tag: ctag,
             title: ctitle,
