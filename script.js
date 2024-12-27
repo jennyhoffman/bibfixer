@@ -136,7 +136,8 @@ function convertRef(text) {
 
             // Detect chemical formula (words starting with a letter including a number)
             if (/\b[a-zA-Z]\w*\d\w*\b/g.test(ctitle)) {
-                cnotes += `Chemical formula detected for ${ctag}`;
+                ctitle = ctitle.replace(/([a-zA-Z])(\d)/g, "$1$_$2$");
+                cnotes += `Chemical formula detected for ${ctag}. `;
             }
 
             // Fix proper nouns in titles
