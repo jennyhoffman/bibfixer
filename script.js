@@ -171,8 +171,9 @@ function convertRef(text) {
             };
 
             // Bracket multi-word names
-            let names = cauthor.split(/\s*,\s*|\s+and\s+/);
+            let names = cauthor.split(/\s+and\s+/);
             for (let name of names) {
+                name = name.split(/\s*,\s*/)[0];
                 if (name.includes(" ")) {
                     cauthor = cauthor.replace(name, `{${name}}`);
                 }
