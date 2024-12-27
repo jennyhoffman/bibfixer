@@ -35,13 +35,13 @@ const propernouns = ['bloch', 'bragg', 'brillouin', 'dirac', 'fano', 'hall', 'ho
 // Other things that should be surrounded with braces.
 const needsbraces = ["1D", "2D", "3D", "Q"];
 
-// Can add other key-value pairs, make sure to double back-slash
+// Un-abbreviate journal names
 const journalAbbrevMap = {
     'Phys. Rev.': 'Physical Review',
     'Lett.': 'Letters',
     'Rev. Mod. Phys.': 'Reviews of Modern Physics',
     'Rev. Sci. Inst.': 'Review of Scientific Instruments',
-    'J. Vac. Sci. Technol.': 'Journal of Vacuum Science \& Technology',
+    'J. Vac. Sci. Technol.': 'Journal of Vacuum Science \\& Technology',
 };
 
 /*--------------------
@@ -171,7 +171,8 @@ function convertRef(text) {
 
         if (cjournal) {
             // Replace abbreviated journal titles
-            //cjournal = cjournal.replace(${Object.keys(journalAbbrevMap).join('|')})./g, match => journalAbbrevMap[match] || match);
+            reg = new RegExp(`(${Object.keys(journalAbbrevMap).join('|')})`, 'g');
+            cjournal = cjournal.replace(reg, match => journalAbbrevMap[match] || match);
         }
         
         bibsinfo.push({
