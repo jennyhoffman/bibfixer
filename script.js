@@ -116,6 +116,9 @@ function convertRef(text) {
         };
 
         if (ctitle) {
+            // Strip all braces
+            ctitle = ctitle.replace(/[{}]/g, "");
+            
             // Fix chemical formulae
             ctitle = ctitle.replace(/(?<!\$)_(\d)/g, "$_$1$");
             ctitle = ctitle.replace(/(?<!\$)\^(\d)/g, "$^$1$");
