@@ -30,7 +30,7 @@ const specialCharMap = {
 };
 
 // Add other names, capitalization doesn't matter.
-const propernouns = ['bloch', 'bragg', 'brillouin', 'dirac', 'fano', 'hall', 'hofstadter', 'hove', 'hubbard', 'landau', 'majorana', 'rashba', 'van hove', 'waals', 'weyl'];
+const propernouns = ['bloch', 'bragg', 'brillouin', 'dirac', 'fano', 'hall', 'hofstadter', 'hove', 'hubbard', 'landau', 'majorana', 'mott', 'rashba', 'van hove', 'waals', 'weyl'];
 
 // Other things that should be surrounded with braces.
 const needsbraces = ["1D", "2D", "3D", "Q"];
