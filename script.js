@@ -30,6 +30,9 @@ const specialCharMap = {
 // Add other names, capitalization doesn't matter.
 const propernouns = ['brillouin', 'dirac', 'fano', 'hall', 'hove', 'hubbard', 'landau', 'rashba', 'van hove', 'waals', 'weyl'];
 
+// Other things that should be surrounded with braces.
+const needsbraces = ["1D", "2D", "3D", "Q"];
+
 /*--------------------
 --Maybe don't change--
 --------------------*/
@@ -118,10 +121,11 @@ function convertRef(text) {
         if (ctitle) {
             // Strip all braces
             ctitle = ctitle.replace(/[{}]/g, "");
-            
-            // Fix chemical formulae
-            ctitle = ctitle.replace(/(?<!\$)_(\d)/g, "$_$1$");
-            ctitle = ctitle.replace(/(?<!\$)\^(\d)/g, "$^$1$");
+
+            // Detect chemical formula (words starting with a letter including a number)
+            if (/\b[a-zA-Z]\w*\d\w*\b/g.test(ctitle)) {
+                cnotes += `Chemical formula detected for ${ctag}`;
+            }
 
             // Fix proper nouns in titles
             for (let noun of propernouns) {
@@ -135,6 +139,13 @@ function convertRef(text) {
 
             // Replace special characters for title
             ctitle = ctitle.replace(/(?<!\\)./g, char => specialCharMap[char] || char);
+
+            // Add braces for things like 3D
+            for (let tooth of needsbraces) {
+                reg = new RegExp("(?<![a-zA-Z])"+tooth+"(?![a-zA-Z])", "g");
+                ctitle = ctitle.replace(reg, match => "{" + match + "}");
+            }
+            
         }
         
         if (cauthor) {
