@@ -168,6 +168,14 @@ function convertRef(text) {
             if (cauthor.includes("=")) {
                 cnotes += `Authors includes '=' for ${ctag}. `;
             };
+
+            // Bracket multi-word names
+            let names = cauthor.split(/\s*,\s*|\s+and\s+/);
+            for (let name of names) {
+                if (name.includes(" ")) {
+                    cauthor = cauthor.replace(name, `{${name}}`);
+                }
+            }
         }
 
         if (cjournal) {
