@@ -77,37 +77,37 @@ function convertRef(text) {
         let ctag = source.slice(source.indexOf("{")+1,source.indexOf(","));
         let ctitle, cauthor, cyear, cjournal, cvolume, cpages, cdoi;
         try {
-            ctitle = untilClosed(source.split(/title\s*=\s*\{/)[1]);
+            ctitle = untilClosed(source.split(/title\s*=\s*\{/i)[1]);
         } catch {
             cerror.push("title");
         }
         try {
-            cauthor = untilClosed(source.split(/author\s*=\s*\{/)[1]);
+            cauthor = untilClosed(source.split(/author\s*=\s*\{/i)[1]);
         } catch {
             cerror.push("author");
         }
         try {
-            cyear = untilClosed(source.split(/year\s*=\s*\{/)[1]);
+            cyear = untilClosed(source.split(/year\s*=\s*\{/i)[1]);
         } catch {
             cerror.push("year");
         }
         try {
-            cjournal = untilClosed(source.split(/journal\s*=\s*\{/)[1]);
+            cjournal = untilClosed(source.split(/journal\s*=\s*\{/i)[1]);
         } catch {
             cerror.push("journal");
         }
         try {
-            cvolume = untilClosed(source.split(/volume\s*=\s*\{/)[1]);
+            cvolume = untilClosed(source.split(/volume\s*=\s*\{/i)[1]);
         } catch {
             cerror.push("volume");
         }
         try {
-            cpages = untilClosed(source.split(/pages\s*=\s*\{/)[1]);
+            cpages = untilClosed(source.split(/pages\s*=\s*\{/i)[1]);
         } catch {
             cerror.push("pages");
         }
         try {
-            cdoi = untilClosed(source.split(/doi\s*=\s*\{/)[1]);
+            cdoi = untilClosed(source.split(/doi\s*=\s*\{/i)[1]);
         } catch {
             cerror.push("doi");
         }
@@ -249,7 +249,16 @@ function untilClosed(text) {
 
 function compareAuthors(a,b) {
     // Strip leading special characters
-    a = a.author.replace(/^[^a-zA-Z]+/, "");
-    b = b.author.replace(/^[^a-zA-Z]+/, "");
+    try {
+        a = a.author.replace(/^[^a-zA-Z]+/, "");
+    } catch {
+        a = "zzz";
+    }
+    try {
+        b = b.author.replace(/^[^a-zA-Z]+/, "");
+    } catch {
+        b = "zzz";
+    }
+    
     return a.localeCompare(b);
 }
