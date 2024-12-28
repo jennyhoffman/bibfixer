@@ -204,8 +204,55 @@ function convertRef(text) {
             notes: cnotes
         });
     }
+
+    // Remove duplicate dois
+    let dois = {};
+    let extras = [];
+    for (let obj of bibsinfo) {
+        if (!obj.doi) {
+            extras.push(obj);
+            continue;
+        }
+        d = obj.doi.toLowerCase();
+        if (d in dois) {
+            dois[d].push(obj);
+        } else {
+            dois[d] = [obj];
+        }
+    }
+    bibsinfo = extras;
+    for (let d in dois) {
+        let ctag, ctitle, cauthor, cyear, cjournal, cvolume, cpages;
+        let cerror = [];
+        let cnotes = "";
+        for (let obj of dois[d]) {
+            ctag = ctag || obj.tag;
+            ctitle = ctitle || obj.title;
+            cauthor = cauthor || obj.author;
+            cyear = cyear || obj.year;
+            cvolume = cvolume || obj.volume;
+            cjournal = cjournal || obj.journal;
+            cpages = cpages || obj.pages;
+            cerror = cerror.filter(item => obj.error.includes(item));
+            cnotes = cnotes + obj.notes;
+        }
+        bibsinfo.push({
+            tag: ctag,
+            title: ctitle,
+            author: cauthor,
+            year: cyear,
+            journal: cjournal,
+            volume: cvolume,
+            pages: cpages,
+            doi: d,
+            error: cerror,
+            notes: cnotes
+        });
+    }
+
     // Sort by first author last name
     bibsinfo.sort(compareAuthors);
+
     // Produce new BibTeX
     let errorstring = "You need to fix:\n";
     for (let obj of bibsinfo) {
