@@ -62,14 +62,14 @@ function convertRef(text) {
     // Split references
     const bibs = text.split("@");
     let bibsinfo = [];
-    let finalstring = ""
+    let finalstring = "";
     // For each reference, extract the useful fields
     for (let source of bibs) {
-        if (/book\{/i.test(source) || /misc\{/i.test(source)) {
+        if (/book\s*\{/i.test(source) || /misc\s*\{/i.test(source)) {
             finalstring += "@" + source + "\n";
             continue;
         }
-        if (!/article\{/i.test(source)) {
+        if (!/article\s*\{/i.test(source)) {
             continue;
         }
         let cerror = [];
