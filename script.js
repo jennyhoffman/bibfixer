@@ -131,20 +131,11 @@ function convertRef(text) {
         };
 
         if (ctitle) {
-            // Strip all braces
-            //ctitle = ctitle.replace(/[{}]/g, "");
-
             // Strip outer braces
             ctitle = ctitle.replace(/^\{(.*)\}$/, "$1");
 
-            // // Detect chemical formula (words starting with a letter including a number)
-            // if (/\b[a-zA-Z]\w*\d\w*\b/g.test(ctitle)) {
-            //     ctitle = ctitle.replace(/([a-zA-Z])(\d)/g, "$1$_$2$");
-            //     cnotes += `Chemical formula detected for ${ctag}. `;
-            // }
-
-            const formulaWord = /\b(?=[A-Za-z0-9]*[A-Za-z])(?=[A-Za-z0-9]*\d)[A-Za-z0-9]+\b/g;
-            
+            // Detect chemical formula (words starting with a letter including a number)
+            const formulaWord = /\b(?=[A-Za-z0-9]*[A-Za-z])(?=[A-Za-z0-9]*\d)[A-Za-z0-9]+\b/g;            
             if (formulaWord.test(ctitle)) {
               ctitle = ctitle.replace(formulaWord, (token) => {
                 // Step 1: convert digits to LaTeX subscripts
@@ -329,5 +320,6 @@ function compareAuthors(a,b) {
     
     return a.localeCompare(b);
 }
+
 
 
