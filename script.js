@@ -191,29 +191,23 @@ function convertRef(text) {
             }
         }
 
-        // if (cjournal) {
-        //     // Replace abbreviated journal titles
-        //     reg = new RegExp(`(${Object.keys(journalAbbrevMap).join('|')})`, 'g');
-        //     cjournal = cjournal.replace(reg, match => journalAbbrevMap[match] || match);
-        // }
-
-if (cjournal) {
-    // Replace abbreviated journal titles
-    const reg = new RegExp(`(${Object.keys(journalAbbrevMap).join('|')})`, 'g');
-    cjournal = cjournal.replace(reg, match => journalAbbrevMap[match] || match);
-
-    // Capitalize journal title (simple title case)
-    const smallWords = new Set(["of", "and", "the", "in", "on", "for", "to"]);
-
-    cjournal = cjournal
-        .toLowerCase()
-        .split(/\s+/)
-        .map((word, i) => {
-            if (i !== 0 && smallWords.has(word)) return word;
-            return word.charAt(0).toUpperCase() + word.slice(1);
-        })
-        .join(" ");
-}
+        if (cjournal) {
+            // Replace abbreviated journal titles
+            const reg = new RegExp(`(${Object.keys(journalAbbrevMap).join('|')})`, 'g');
+            cjournal = cjournal.replace(reg, match => journalAbbrevMap[match] || match);
+        
+            // Capitalize journal title (simple title case)
+            const smallWords = new Set(["of", "and", "the", "in", "on", "for", "to"]);
+        
+            cjournal = cjournal
+                .toLowerCase()
+                .split(/\s+/)
+                .map((word, i) => {
+                    if (i !== 0 && smallWords.has(word)) return word;
+                    return word.charAt(0).toUpperCase() + word.slice(1);
+                })
+                .join(" ");
+        }
         
         if (cpages) {
             // Replace weird hyphen with correct dash so that page numbers appear correctly
@@ -338,6 +332,7 @@ function compareAuthors(a,b) {
     
     return a.localeCompare(b);
 }
+
 
 
 
