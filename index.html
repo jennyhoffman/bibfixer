@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Bib-Fixer</title>
+    <link rel="icon" type="image/x-icon" href="bibtex.png">
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div class="main">
+        <div class="banner">
+            <h1>Bib-Fixer</h1>
+        </div>
+        <div class="content">
+            <textarea id="badref" placeholder="Paste BibTeX content here..."></textarea>
+            <button id="fix" onclick="produceGoodRef()">Abracadabra</button>
+            <textarea id="goodref" readonly></textarea>
+        </div>
+        <textarea id="errorlog" readonly>Errors & recommendations will appear here...</textarea>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+
