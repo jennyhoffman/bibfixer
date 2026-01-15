@@ -21,14 +21,14 @@ html, body {
   
 .banner {
     width: 100vw;
-    height: 100px;
+    min-height: 60px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 10px;
+    padding: 5px 10px;
     background-color: black;
     color: white;
-    font-size: 20px;
+    font-size: 1.6em;
 }
 
 .content {
@@ -46,7 +46,7 @@ html, body {
     padding: 0.5em;
     font-size: 0.85em;
     text-align: center;
-    color: #555;
+    color: white;
 }
 
 .acknowledgement a {
@@ -56,8 +56,8 @@ html, body {
 
 #badref, #badref:focus {
     width: 40vw;
-    height: 40vh;
-    margin: 10px;
+    height: 36vh;
+    margin: 5px;
     padding: 5px;
     border: 0;
     border-radius: 5px;
@@ -65,8 +65,8 @@ html, body {
 
 #goodref, #goodref:focus {
     width: 40vw;
-    height: 40vh;
-    margin: 10px;
+    height: 36vh;
+    margin: 5px;
     padding: 5px;
     border: 0;
     outline: none;
@@ -75,9 +75,9 @@ html, body {
 
 #errorlog, #errorlog:focus {
     width: 50vw;
-    height: 35vh;
-    margin: 10px;
-    padding: 10px;
+    height: 30vh;
+    margin: 5px;
+    padding: 5px;
     border: 0;
     outline: none;
     border-radius: 5px;
@@ -99,4 +99,5 @@ html, body {
     background-color: darkgrey;
 
 }
+
 
