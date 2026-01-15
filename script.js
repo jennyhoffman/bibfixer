@@ -132,7 +132,10 @@ function convertRef(text) {
 
         if (ctitle) {
             // Strip all braces
-            ctitle = ctitle.replace(/[{}]/g, "");
+            //ctitle = ctitle.replace(/[{}]/g, "");
+
+            // Strip outer braces
+            ctitle = ctitle.replace(/^\{(.*)\}$/, "$1");
 
             // // Detect chemical formula (words starting with a letter including a number)
             // if (/\b[a-zA-Z]\w*\d\w*\b/g.test(ctitle)) {
@@ -140,23 +143,23 @@ function convertRef(text) {
             //     cnotes += `Chemical formula detected for ${ctag}. `;
             // }
 
-const formulaWord = /\b(?=[A-Za-z0-9]*[A-Za-z])(?=[A-Za-z0-9]*\d)[A-Za-z0-9]+\b/g;
-
-if (formulaWord.test(ctitle)) {
-  ctitle = ctitle.replace(formulaWord, (token) => {
-    // Step 1: convert digits to LaTeX subscripts
-    const latex = token.replace(/([A-Za-z])(\d+)/g, "$1$_{$2}$");
-
-    // Step 2: wrap only if not already wrapped
-    if (/^\{.*\}$/.test(latex)) {
-      return latex;
-    } else {
-      return `{${latex}}`;
-    }
-  });
-
-  cnotes += `Chemical formula detected for ${ctag}. `;
-}
+            const formulaWord = /\b(?=[A-Za-z0-9]*[A-Za-z])(?=[A-Za-z0-9]*\d)[A-Za-z0-9]+\b/g;
+            
+            if (formulaWord.test(ctitle)) {
+              ctitle = ctitle.replace(formulaWord, (token) => {
+                // Step 1: convert digits to LaTeX subscripts
+                const latex = token.replace(/([A-Za-z])(\d+)/g, "$1$_{$2}$");
+            
+                // Step 2: wrap only if not already wrapped
+                if (/^\{.*\}$/.test(latex)) {
+                  return latex;
+                } else {
+                  return `{${latex}}`;
+                }
+              });
+            
+              cnotes += `Chemical formula detected for ${ctag}. `;
+            }
          
             // Fix proper nouns in titles
             for (let noun of propernouns) {
@@ -164,8 +167,7 @@ if (formulaWord.test(ctitle)) {
                 ctitle = ctitle.replace(reg, `{${noun[0].toUpperCase()}}${noun.slice(1).toLowerCase()}`);
             }
 
-            // Fix greek letters in titles (credit to ChatGPT)
-            
+            // Fix greek letters in titles (credit to ChatGPT)            
             ctitle = ctitle.replace(/[Α-Ωα-ω]/g, match => greekMap[match] || match);
 
             // Replace special characters for title
@@ -327,4 +329,5 @@ function compareAuthors(a,b) {
     
     return a.localeCompare(b);
 }
+
 
