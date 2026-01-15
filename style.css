@@ -41,6 +41,19 @@ html, body {
     margin: 0;
 }
 
+.acknowledgement {
+    margin-top: 2em;
+    padding: 0.5em;
+    font-size: 0.85em;
+    text-align: center;
+    color: #555;
+}
+
+.acknowledgement a {
+    color: inherit;
+    text-decoration: underline;
+}
+
 #badref, #badref:focus {
     width: 40vw;
     height: 40vh;
@@ -86,3 +99,4 @@ html, body {
     background-color: darkgrey;
 
 }
+
