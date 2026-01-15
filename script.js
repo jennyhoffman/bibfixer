@@ -31,7 +31,7 @@ const specialCharMap = {
 };
 
 // Add other names, capitalization doesn't matter.
-const propernouns = ['bloch', 'bragg', 'brillouin', 'dirac', 'fano', 'hall', 'hofstadter', 'hove', 'hubbard', 'landau', 'majorana', 'mott', 'rashba', 'van hove', 'waals', 'weyl'];
+const propernouns = ['bloch', 'bragg', 'brillouin', 'dirac', 'fano', 'fermi', 'hall', 'hofstadter', 'hove', 'hubbard', 'kondo', 'landau', 'majorana', 'mott', 'rashba', 'van hove', 'waals', 'weyl'];
 
 // Other things that should be surrounded with braces.
 const needsbraces = ["1D", "2D", "3D", "Q"];
@@ -134,12 +134,30 @@ function convertRef(text) {
             // Strip all braces
             ctitle = ctitle.replace(/[{}]/g, "");
 
-            // Detect chemical formula (words starting with a letter including a number)
-            if (/\b[a-zA-Z]\w*\d\w*\b/g.test(ctitle)) {
-                ctitle = ctitle.replace(/([a-zA-Z])(\d)/g, "$1$_$2$");
-                cnotes += `Chemical formula detected for ${ctag}. `;
-            }
+            // // Detect chemical formula (words starting with a letter including a number)
+            // if (/\b[a-zA-Z]\w*\d\w*\b/g.test(ctitle)) {
+            //     ctitle = ctitle.replace(/([a-zA-Z])(\d)/g, "$1$_$2$");
+            //     cnotes += `Chemical formula detected for ${ctag}. `;
+            // }
 
+const formulaWord = /\b(?=[A-Za-z0-9]*[A-Za-z])(?=[A-Za-z0-9]*\d)[A-Za-z0-9]+\b/g;
+
+if (formulaWord.test(ctitle)) {
+  ctitle = ctitle.replace(formulaWord, (token) => {
+    // Step 1: convert digits to LaTeX subscripts
+    const latex = token.replace(/([A-Za-z])(\d+)/g, "$1$_{$2}$");
+
+    // Step 2: wrap only if not already wrapped
+    if (/^\{.*\}$/.test(latex)) {
+      return latex;
+    } else {
+      return `{${latex}}`;
+    }
+  });
+
+  cnotes += `Chemical formula detected for ${ctag}. `;
+}
+         
             // Fix proper nouns in titles
             for (let noun of propernouns) {
                 reg = new RegExp(noun, "gi");
@@ -309,3 +327,4 @@ function compareAuthors(a,b) {
     
     return a.localeCompare(b);
 }
+
